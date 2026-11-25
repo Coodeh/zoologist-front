@@ -2,7 +2,7 @@ import requests
 import streamlit as st
 
 
-API_BASE_URL = "https://zoo-api-1008045770158.europe-west1.run.app"
+API_BASE_URL = st.secrets['API_BASE_URL']
 PAGES = ("Accueil", "Pingouin", "Chat / Chien")
 
 
