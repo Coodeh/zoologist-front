@@ -1,7 +1,7 @@
 import requests
 import streamlit as st
 import os
-API_URL_BASE = st.secrets['API_URL_BASE']
+API_BASE_URL = st.secrets['API_BASE_URL']
 
 
 PAGES = ("Accueil", "Pingouin", "Chat / Chien")
