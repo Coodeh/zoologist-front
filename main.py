@@ -1,8 +1,8 @@
 import requests
 import streamlit as st
 
-
 API_BASE_URL = st.secrets['API_BASE_URL']
+
 PAGES = ("Accueil", "Pingouin", "Chat / Chien")
 
 
@@ -76,13 +76,13 @@ def penguin_page() -> None:
         left, right = st.columns(2)
         with left:
             island = st.selectbox("Île", ["Biscoe", "Dream", "Torgersen"])
-            bill_length_mm = st.number_input("Longueur du bec (mm)", 20.0, 70.0, 45.0, 0.1)
-            bill_depth_mm = st.number_input("Profondeur du bec (mm)", 10.0, 30.0, 17.0, 0.1)
+            bill_length_mm = st.slider("Longueur du bec (mm)", 20.0, 70.0, 45.0, 0.1)
+            bill_depth_mm = st.slider("Profondeur du bec (mm)", 10.0, 30.0, 17.0, 0.1)
         with right:
-            flipper_length_mm = st.number_input(
+            flipper_length_mm = st.slider(
                 "Longueur des nageoires (mm)", 150.0, 250.0, 200.0, 1.0
             )
-            body_mass_g = st.number_input(
+            body_mass_g = st.slider(
                 "Masse corporelle (g)", 2000.0, 7000.0, 4000.0, 50.0
             )
             sex = st.selectbox("Sexe", ["Male", "Female"])
@@ -151,7 +151,7 @@ if "page" not in st.session_state:
 
 with st.sidebar:
     st.title("Navigation")
-    for page_name, icon in zip(PAGES, ("🏠", "🐧", "🐱🐶")):
+    for page_name, icon in zip(PAGES, ("🏠", "🐧", "🐱 / 🐶")):
         st.button(
             f"{icon} {page_name}",
             use_container_width=True,
