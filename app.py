@@ -1,6 +1,9 @@
 import streamlit as st
 import numpy as np
 import pandas as pd
+import requests
+
+API_URL = "https://zoo-api-1008045770158.europe-west1.run.app/predict_tf"
 
 st.markdown("""
     # Zoologist
@@ -41,3 +44,48 @@ body_mass_g = st.slider(
     value=4000.0,
     step=50.0
 )
+
+if st.button("Prediction", type="primary"):
+
+    parameters = {
+        "island": island,
+        "bill_length_mm": bill_length_mm,
+        "bill_depth_mm": bill_depth_mm,
+        "flipper_length_mm": flipper_length_mm,
+        "body_mass_g": body_mass_g,
+        "sex": sex,
+    }
+
+    try:
+        with st.spinner("Prediction in progress..."):
+            response = requests.get(
+                API_URL,
+                params=parameters,
+                timeout=30
+            )
+
+        response.raise_for_status()
+
+        result = response.json()
+        prediction = result["prediction"]
+
+        st.success(f"Prediction : {prediction}")
+
+    except requests.exceptions.Timeout:
+        st.error("API out of time.")
+
+    except requests.exceptions.ConnectionError:
+        st.error("API error.")
+
+    except requests.exceptions.HTTPError:
+        st.error(
+            f"HTTP error : {response.status_code}."
+        )
+        st.code(response.text)
+
+    except KeyError:
+        st.error("No prediction")
+        st.json(result)
+
+    except ValueError:
+        st.error("unavable JSON.")
